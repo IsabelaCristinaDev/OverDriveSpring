@@ -17,7 +17,7 @@ public class ClienteController {
 
     @PostMapping("/")
     public ClienteEntity criarCliente(@Valid @RequestBody ClienteEntity nome) {
-        return this.clienteService.salvarCliente(nome.getNome());
+        return this.clienteService.salvarCliente(nome.getName());
     }
 
     @GetMapping("/{id}")
