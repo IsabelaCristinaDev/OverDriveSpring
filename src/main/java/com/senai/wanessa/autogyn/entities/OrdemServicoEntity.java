@@ -1,58 +1,81 @@
 package com.senai.wanessa.autogyn.entities;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+@Entity
+@Table(name = "ordem_servico")
 public class OrdemServicoEntity {
-    private int id;
 
-    @NotNull(message = "O ID do cliente não pode ser nulo")
-    private int clienteId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @NotNull(message = "O ID do veículo não pode ser nulo")
-    private int veiculoId;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "cliente_id") 
+    private ClienteEntity cliente;
 
-    private int estoqueId;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "veiculo_id") 
+    private VeiculoEntity veiculo;
+
+    @ManyToOne
+    @JoinColumn(name = "peca_id") 
+    private PecaEntity peca;
+
+    @ManyToOne
+    @JoinColumn(name = "servico_id") 
+    private ServicoEntity servico;
 
     @NotBlank(message = "A descrição do serviço não pode ser vazia")
     private String descricao;
 
     @NotNull(message = "O valor do serviço não pode ser nulo")
-    @DecimalMin(message = "O valor do serviço deve ser maior ou igual a 0.01", value = "0.01")
+    @DecimalMin(value = "0.01", message = "O valor do serviço deve ser maior ou igual a 0.01")
     private double valor;
 
-    public int getId() {
+    // Getters e Setters
+
+    public Integer getId() {
         return id;
     }
 
-    public int getEstoqueId() {
-        return estoqueId;
-    }
-
-    public void setEstoqueId(int estoqueId) {
-        this.estoqueId = estoqueId;
-    }
-
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getClienteId() {
-        return clienteId;
+    public ClienteEntity getCliente() {
+        return cliente;
     }
 
-    public void setClienteId(int clienteId) {
-        this.clienteId = clienteId;
+    public void setCliente(ClienteEntity cliente) {
+        this.cliente = cliente;
     }
 
-    public int getVeiculoId() {
-        return veiculoId;
+    public VeiculoEntity getVeiculo() {
+        return veiculo;
     }
 
-    public void setVeiculoId(int veiculoId) {
-        this.veiculoId = veiculoId;
+    public void setVeiculo(VeiculoEntity veiculo) {
+        this.veiculo = veiculo;
+    }
+
+    public PecaEntity getPeca() {
+        return peca;
+    }
+
+    public void setPeca(PecaEntity peca) {
+        this.peca = peca;
+    }
+
+    public ServicoEntity getServico() {
+        return servico;
+    }
+
+    public void setServico(ServicoEntity servico) {
+        this.servico = servico;
     }
 
     public String getDescricao() {
