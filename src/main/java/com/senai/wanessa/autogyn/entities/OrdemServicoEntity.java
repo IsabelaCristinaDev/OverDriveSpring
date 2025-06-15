@@ -36,7 +36,7 @@ public class OrdemServicoEntity {
     @DecimalMin(value = "0.01", message = "O valor do serviço deve ser maior ou igual a 0.01")
     private double valor;
 
-    // Getters e Setters
+
 
     public Integer getId() {
         return id;
