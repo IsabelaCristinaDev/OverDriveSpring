@@ -10,29 +10,38 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/clientes")
+@CrossOrigin(origins = "*")
 public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
 
-    @PostMapping("/")
-    public ClienteEntity criarCliente(@Valid @RequestBody ClienteEntity nome) {
-        return this.clienteService.salvarCliente(nome.getName());
+    @PostMapping
+    public ClienteEntity criarCliente(@Valid @RequestBody ClienteEntity cliente) {
+        return clienteService.salvarCliente(cliente);
+    }
+
+    @GetMapping
+    public List<ClienteEntity> buscarTodosClientes() {
+        return clienteService.buscarTodosClientes();
     }
 
     @GetMapping("/{id}")
     public ClienteEntity buscarClientePorId(@PathVariable int id) {
-        return this.clienteService.buscarClientePorId(id);
-    }
-
-    @GetMapping("/")
-    public List<ClienteEntity> buscarTodosClientes() {
-        return this.clienteService.buscarTodosClientes();
+        return clienteService.buscarClientePorId(id);
     }
 
     @DeleteMapping("/{id}")
     public void deletarClientePorId(@PathVariable int id) {
-        this.clienteService.deletarClientePorId(id);
+        clienteService.deletarClientePorId(id);
     }
 
+    @PutMapping("/{id}")
+    public ClienteEntity atualizarCliente(@PathVariable int id, @Valid @RequestBody ClienteEntity clienteAtualizado) {
+        ClienteEntity clienteExistente = clienteService.buscarClientePorId(id);
+        if (clienteExistente == null) return null;
+
+        clienteAtualizado.setId(id);
+        return clienteService.salvarCliente(clienteAtualizado);
+    }
 }

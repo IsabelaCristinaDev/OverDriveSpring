@@ -1,16 +1,47 @@
 package com.senai.wanessa.autogyn.entities;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "veiculo")
 public class VeiculoEntity {
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(nullable = false, length = 20, unique = true)
     private String placa;
+
+    @Column(nullable = false, length = 50)
     private String modelo;
 
-    public int getId() {
+    @Column(nullable = false, length = 50)
+    private String marca;
+
+    public VeiculoEntity() {}
+
+    public VeiculoEntity(Integer id, String placa, String modelo, String marca) {
+        this.id = id;
+        this.placa = placa;
+        this.modelo = modelo;
+        this.marca = marca;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getPlaca() {
+        return placa;
+    }
+
+    public void setPlaca(String placa) {
+        this.placa = placa;
     }
 
     public String getModelo() {
@@ -21,11 +52,11 @@ public class VeiculoEntity {
         this.modelo = modelo;
     }
 
-    public String getPlaca() {
-        return placa;
+    public String getMarca() {
+        return marca;
     }
 
-    public void setPlaca(String placa) {
-        this.placa = placa;
+    public void setMarca(String marca) {
+        this.marca = marca;
     }
 }

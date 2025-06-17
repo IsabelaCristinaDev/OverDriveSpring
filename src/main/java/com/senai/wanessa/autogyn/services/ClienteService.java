@@ -1,12 +1,12 @@
 package com.senai.wanessa.autogyn.services;
 
 import com.senai.wanessa.autogyn.entities.ClienteEntity;
-import com.senai.wanessa.autogyn.factory.ClienteFactory;
 import com.senai.wanessa.autogyn.repositories.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClienteService {
@@ -14,20 +14,20 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public ClienteEntity salvarCliente(String nome) {
-        ClienteEntity cliente = ClienteFactory.criarCliente(nome);
-        return this.clienteRepository.salvar(cliente.getNome());
+    public ClienteEntity salvarCliente(ClienteEntity cliente) {
+        return clienteRepository.save(cliente);
     }
 
     public ClienteEntity buscarClientePorId(int id) {
-        return this.clienteRepository.buscarPorId(id);
+        Optional<ClienteEntity> cliente = clienteRepository.findById(id);
+        return cliente.orElse(null);
     }
 
     public List<ClienteEntity> buscarTodosClientes() {
-        return this.clienteRepository.buscarTodos();
+        return clienteRepository.findAll();
     }
 
     public void deletarClientePorId(int id) {
-        this.clienteRepository.deletarPorId(id);
+        clienteRepository.deleteById(id);
     }
 }

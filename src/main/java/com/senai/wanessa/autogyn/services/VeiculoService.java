@@ -1,12 +1,12 @@
 package com.senai.wanessa.autogyn.services;
 
 import com.senai.wanessa.autogyn.entities.VeiculoEntity;
-import com.senai.wanessa.autogyn.factory.VeiculoFactory;
 import com.senai.wanessa.autogyn.repositories.VeiculoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VeiculoService {
@@ -14,20 +14,20 @@ public class VeiculoService {
     @Autowired
     private VeiculoRepository veiculoRepository;
 
-    public VeiculoEntity salvarVeiculo(String placa, String modelo) {
-        VeiculoEntity veiculo = VeiculoFactory.criarVeiculo(placa, modelo);
-        return this.veiculoRepository.salvar(veiculo.getPlaca(), veiculo.getModelo());
-    }
-
-    public VeiculoEntity buscarVeiculoPorId(int id) {
-        return this.veiculoRepository.buscarPorId(id);
+    public VeiculoEntity salvarVeiculo(VeiculoEntity veiculo) {
+        return veiculoRepository.save(veiculo);
     }
 
     public List<VeiculoEntity> buscarTodosVeiculos() {
-        return this.veiculoRepository.buscarTodos();
+        return veiculoRepository.findAll();
     }
 
-    public void deletarVeiculoPorId(int id) {
-        this.veiculoRepository.deletarPorId(id);
+    public VeiculoEntity buscarPorId(int id) {
+        Optional<VeiculoEntity> veiculo = veiculoRepository.findById(id);
+        return veiculo.orElse(null);
+    }
+
+    public void deletarPorId(int id) {
+        veiculoRepository.deleteById(id);
     }
 }
